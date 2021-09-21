@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView top_right;
     TextView bot_left;
     TextView bot_right;
+    TextView center;
     SeekBar font_changer;
     ConstraintLayout main_layout;
     @Override
@@ -28,10 +29,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bot_left = findViewById(R.id.bot_left_button);
         bot_right = findViewById(R.id.bot_right_button);
         font_changer = findViewById(R.id.font_changer);
+        center = findViewById(R.id.center_number);
         top_left.setOnClickListener(this);
         top_right.setOnClickListener(this);
         bot_right.setOnClickListener(this);
         bot_left.setOnClickListener(this);
+        center.setOnClickListener(this);
         main_layout = findViewById(R.id.main_layout);
         main_layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bot_left.setText("0");
                 bot_right.setText("0");
                 font_changer.setProgress(50);
+                center.setText("0");
                 SharedPreferences wipe = getSharedPreferences("AppSave", MODE_PRIVATE);
                 SharedPreferences.Editor remove = wipe.edit();
                 remove.clear();
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 top_right.setTextSize(i);
                 bot_left.setTextSize(i);
                 bot_right.setTextSize(i);
+                center.setText("" + (Integer.parseInt(center.getText().toString())+i));
                 Snackbar snackbar = Snackbar.make(main_layout, "Font Changed to " + i + "dp.", Snackbar.LENGTH_SHORT);
                 snackbar.show();
             }
@@ -82,11 +87,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int tr = sh.getInt("top_right", 0);
         int bl = sh.getInt("bot_left", 0);
         int br = sh.getInt("bot_right", 0);
+        int ct = sh.getInt("center", 0);
         int sb = sh.getInt("font_changer", 0);
         top_left.setText(String.valueOf(tl));
         top_right.setText(String.valueOf(tr));
         bot_left.setText(String.valueOf(bl));
         bot_right.setText(String.valueOf(br));
+        center.setText(String.valueOf(ct));
         font_changer.setProgress(sb);
     }
 
@@ -99,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         save.putInt("top_left", Integer.parseInt(top_left.getText().toString()));
         save.putInt("bot_right", Integer.parseInt(bot_right.getText().toString()));
         save.putInt("bot_left", Integer.parseInt(bot_left.getText().toString()));
+        save.putInt("center", Integer.parseInt(center.getText().toString()));
         save.putInt("font_changer", font_changer.getProgress());
         save.apply();
     }
